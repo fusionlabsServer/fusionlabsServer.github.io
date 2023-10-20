@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Front-End Execution Test</title>
+</head>
+<body>
+    <h1>Users Database</h1>
+    <select id="function">
+        <option value="getUsers" selected>Get All Users</option>
+        <option value="addUser">Add User</option>
+        <option value="getUser">Get User by ID</option> 
+    </select>
+    <br>
+    <div class="user-inputs">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="age" placeholder="Age">
+        <input type="text" id="userId" placeholder="User ID"> 
+    </div>
+    <br>
+    <button type="button" class="btn-bw" id="btn">Execute</button> 
+    <br>
+    <p id="output"></p>
+    <script>
+        var btn = document.getElementById("btn");
+        var select = document.getElementById("function");
+        
+        btn.onclick = function() {
+            var selectedFunction = select.value; 
+            if (selectedFunction === 'getUsers') {
+                fetch('/users')
+                    .then(response => response.json())
+                    .then(users => document.getElementById("output").textContent = JSON.stringify(users, null, 2));
+            } else if (selectedFunction === 'getUser') {
+                const userId = document.getElementById("userId").value;
+                fetch(`/users/${userId}`)
+                    .then(response => response.json())
+                    .then(user => document.getElementById("output").textContent = JSON.stringify(user, null, 2));
+            } else if (selectedFunction === 'addUser') {
+                const name = document.getElementById("name").value;
+                const age = document.getElementById("age").value;
+                fetch('/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, age })
+                })
+                .then(response => response.json())
+                .then(newUser => document.getElementById("output").textContent = JSON.stringify(newUser, null, 2));
+            }
+        }
+    </script>
+</body>
+</html>
