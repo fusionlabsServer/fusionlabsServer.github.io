@@ -23,7 +23,7 @@ btn.onclick = function() {
     } 
     else if (selectedFunction === 'deleteUser') {
         const userId = document.getElementById("userId").value
-        fetch(apiUrl + `/users/delete/${userId}`)
+        fetch(apiUrl + `/users/${userId}`)
             .then(response => response.json())
             .then(users => document.getElementById("output").textContent = JSON.stringify(users, null, 2))
     } 
