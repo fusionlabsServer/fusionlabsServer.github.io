@@ -9,7 +9,7 @@ var select = document.getElementById("function")
 
 btn.onclick = function() {
     var selectedFunction = select.value
-    
+
     if (selectedFunction === 'getUsers') {
         fetch(apiUrl + '/users')
             .then(response => response.json())
@@ -23,9 +23,11 @@ btn.onclick = function() {
     } 
     else if (selectedFunction === 'deleteUser') {
         const userId = document.getElementById("userId").value
-        fetch(apiUrl + `/users/${userId}`)
-            .then(response => response.json())
-            .then(users => document.getElementById("output").textContent = JSON.stringify(users, null, 2))
+        fetch(apiUrl + `/users/${userId}`, {
+            method: 'PUT'
+        })
+        .then(response => response.json())
+        .then(users => document.getElementById("output").textContent = JSON.stringify(users, null, 2))
     } 
     else if (selectedFunction === 'addUser') {
         const name = document.getElementById("name").value
